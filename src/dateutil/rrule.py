@@ -468,8 +468,8 @@ class rrule(rrulebase):
                 # > then the UNTIL rule part MUST be specified as a date with
                 # > UTC time.
                 raise ValueError(
-                    'RRULE UNTIL values must be specified in UTC when DTSTART '
-                    'is timezone-aware'
+                    'RRULE DTSTART values and UNTIL values must both be '
+                    'timezone aware or both be timezone naive'
                 )
 
         if count is not None and until:
