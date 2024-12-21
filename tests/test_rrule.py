@@ -4595,6 +4595,21 @@ class RRuleTest(unittest.TestCase):
                                   byweekno=long(2),
                                   dtstart=datetime(1997, 9, 2, 9, 0)))
 
+    def testToStrTimezoneAware(self):
+        rule = rrule(YEARLY, count=3, dtstart=datetime(1997, 9, 2, 9, 0, tzinfo=tz.UTC))
+        self._rrulestr_reverse_test(rule)
+
+    def testToStrUntilTimezoneAware(self):
+        rule = rrule(YEARLY, dtstart=datetime(1997, 9, 2, 9, 0, tzinfo=tz.UTC), until=datetime(2000, 9, 2, 9, 0, tzinfo=tz.UTC))
+        self._rrulestr_reverse_test(rule)
+
+    def testToStrZuluOutput(self):
+        rule = rrule(YEARLY, dtstart=datetime(1997, 9, 2, 9, 0, tzinfo=tz.UTC), until=datetime(2000, 9, 2, 9, 0, tzinfo=tz.UTC))
+        rr_str = str(rule)
+        until = rr_str.find("UNTIL")
+        self.assertIn("Z", rr_str[:until])
+        self.assertIn("Z", rr_str[until:])
+
     def testReplaceIfSet(self):
         rr = rrule(YEARLY,
                    count=1,
